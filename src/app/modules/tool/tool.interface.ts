@@ -7,4 +7,6 @@ export type ITool = {
     url: string;
     viewCount: number;
     category: string;
-} 
+    viewRecords: { viewedAt: Date }[];
+}
+

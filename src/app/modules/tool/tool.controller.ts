@@ -26,8 +26,30 @@ const updateToolView = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+const getWeeklyViews = catchAsync(async (req: Request, res: Response) => {
+    const result = await toolService.getWeeklyViews();
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Weekly views fetched successfully",
+        data: result
+    });
+});
+
+const getMonthlyViews = catchAsync(async (req: Request, res: Response) => {
+    const result = await toolService.getMonthlyViews();
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Monthly views fetched successfully",
+        data: result
+    });
+});
+
 export default {
     getTools,
-    updateToolView
+    updateToolView,
+    getWeeklyViews,
+    getMonthlyViews
 }
 
