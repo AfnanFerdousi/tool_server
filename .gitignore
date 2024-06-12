@@ -1,0 +1,13 @@
+
+data/**
+/node_modules
+/build
+/logs
+*.log
+npm-debug.log
+.nyc
+.DS_Store
+logs
+.env
+key
+
