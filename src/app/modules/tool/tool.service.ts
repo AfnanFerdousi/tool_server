@@ -6,7 +6,18 @@ const getTools = async () => {
 }
 
 const updateToolView = async (id: string) => {
-    const tool = await Tool.findByIdAndUpdate(id, { $inc: { view: 1 } });
+    const tool = await Tool.findByIdAndUpdate(id, {
+        $inc: {
+            viewCount: 1,
+        },
+        $push: {
+            viewRecords: {
+                viewedAt: new Date()
+            }
+        }
+    }, {
+        new: true
+    });
     return tool;
 }
 
@@ -19,15 +30,17 @@ const getWeeklyViews = async () => {
         { $match: { "viewRecords.viewedAt": { $gte: oneMonthAgo } } },
         {
             $group: {
-                _id: { $week: "$viewRecords.viewedAt" },
+                _id: { $week: { $dateToString: { format: "%Y-%U", date: "$viewRecords.viewedAt" } } },
                 viewCount: { $sum: 1 }
             }
         },
         { $sort: { "_id": 1 } }
     ]);
 
+    console.log(weeklyData);  // Debugging line to print weekly data
     return weeklyData;
 };
+
 
 const getMonthlyViews = async () => {
     const now = new Date();
@@ -38,15 +51,17 @@ const getMonthlyViews = async () => {
         { $match: { "viewRecords.viewedAt": { $gte: oneYearAgo } } },
         {
             $group: {
-                _id: { $month: "$viewRecords.viewedAt" },
+                _id: { $month: { $dateToString: { format: "%Y-%m", date: "$viewRecords.viewedAt" } } },
                 viewCount: { $sum: 1 }
             }
         },
         { $sort: { "_id": 1 } }
     ]);
 
+    console.log(monthlyData);  // Debugging line to print monthly data
     return monthlyData;
 };
+
 
 export default {
     getTools,

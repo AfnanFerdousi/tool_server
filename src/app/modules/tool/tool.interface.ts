@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
 export type ITool = {
-    name: string;
-    price: string;
-    description: string;
-    url: string;
+    appName: string;
+    appType: string;
+    appDesc: string;
+    appUrl: string;
     viewCount: number;
-    category: string;
-    viewRecords: { viewedAt: Date }[];
+    appCat: string;
+    viewRecords?: { viewedAt: Date }[];
 }
 

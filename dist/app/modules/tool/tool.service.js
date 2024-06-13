@@ -18,7 +18,18 @@ const getTools = () => __awaiter(void 0, void 0, void 0, function* () {
     return tools;
 });
 const updateToolView = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const tool = yield tool_model_1.default.findByIdAndUpdate(id, { $inc: { view: 1 } });
+    const tool = yield tool_model_1.default.findByIdAndUpdate(id, {
+        $inc: {
+            viewCount: 1,
+        },
+        $push: {
+            viewRecords: {
+                viewedAt: new Date()
+            }
+        }
+    }, {
+        new: true
+    });
     return tool;
 });
 const getWeeklyViews = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -29,12 +40,13 @@ const getWeeklyViews = () => __awaiter(void 0, void 0, void 0, function* () {
         { $match: { "viewRecords.viewedAt": { $gte: oneMonthAgo } } },
         {
             $group: {
-                _id: { $week: "$viewRecords.viewedAt" },
+                _id: { $week: { $dateToString: { format: "%Y-%U", date: "$viewRecords.viewedAt" } } },
                 viewCount: { $sum: 1 }
             }
         },
         { $sort: { "_id": 1 } }
     ]);
+    console.log(weeklyData); // Debugging line to print weekly data
     return weeklyData;
 });
 const getMonthlyViews = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -45,12 +57,13 @@ const getMonthlyViews = () => __awaiter(void 0, void 0, void 0, function* () {
         { $match: { "viewRecords.viewedAt": { $gte: oneYearAgo } } },
         {
             $group: {
-                _id: { $month: "$viewRecords.viewedAt" },
+                _id: { $month: { $dateToString: { format: "%Y-%m", date: "$viewRecords.viewedAt" } } },
                 viewCount: { $sum: 1 }
             }
         },
         { $sort: { "_id": 1 } }
     ]);
+    console.log(monthlyData); // Debugging line to print monthly data
     return monthlyData;
 });
 exports.default = {

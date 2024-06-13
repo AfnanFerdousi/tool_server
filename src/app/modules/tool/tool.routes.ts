@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", toolController.getTools);
 
-router.post("/view/:id", toolController.updateToolView);
+router.patch("/view/:id", toolController.updateToolView);
 
 router.get("/views/weekly", toolController.getWeeklyViews);
 

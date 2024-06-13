@@ -9,15 +9,9 @@ const express_1 = __importDefault(require("express"));
 const http_status_1 = __importDefault(require("http-status"));
 const routes_1 = __importDefault(require("./app/routes"));
 const app = (0, express_1.default)();
-const allowedOrigins = ["http://localhost:3000", "https://koc-chat.vercel.app"];
 const corsOptions = {
     origin: function (origin, callback) {
-        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-            callback(null, true);
-        }
-        else {
-            callback(new Error("Not allowed by CORS"));
-        }
+        callback(null, true);
     },
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // enable CORS with credentials
