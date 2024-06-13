@@ -7,5 +7,7 @@ const express_1 = __importDefault(require("express"));
 const tool_controller_1 = __importDefault(require("./tool.controller"));
 const router = express_1.default.Router();
 router.get("/", tool_controller_1.default.getTools);
-router.get("/:id", tool_controller_1.default.updateToolView);
+router.post("/view/:id", tool_controller_1.default.updateToolView);
+router.get("/views/weekly", tool_controller_1.default.getWeeklyViews);
+router.get("/views/monthly", tool_controller_1.default.getMonthlyViews);
 exports.default = router;

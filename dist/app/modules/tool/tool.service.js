@@ -21,7 +21,41 @@ const updateToolView = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const tool = yield tool_model_1.default.findByIdAndUpdate(id, { $inc: { view: 1 } });
     return tool;
 });
+const getWeeklyViews = () => __awaiter(void 0, void 0, void 0, function* () {
+    const now = new Date();
+    const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+    const weeklyData = yield tool_model_1.default.aggregate([
+        { $unwind: "$viewRecords" },
+        { $match: { "viewRecords.viewedAt": { $gte: oneMonthAgo } } },
+        {
+            $group: {
+                _id: { $week: "$viewRecords.viewedAt" },
+                viewCount: { $sum: 1 }
+            }
+        },
+        { $sort: { "_id": 1 } }
+    ]);
+    return weeklyData;
+});
+const getMonthlyViews = () => __awaiter(void 0, void 0, void 0, function* () {
+    const now = new Date();
+    const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+    const monthlyData = yield tool_model_1.default.aggregate([
+        { $unwind: "$viewRecords" },
+        { $match: { "viewRecords.viewedAt": { $gte: oneYearAgo } } },
+        {
+            $group: {
+                _id: { $month: "$viewRecords.viewedAt" },
+                viewCount: { $sum: 1 }
+            }
+        },
+        { $sort: { "_id": 1 } }
+    ]);
+    return monthlyData;
+});
 exports.default = {
     getTools,
-    updateToolView
+    updateToolView,
+    getWeeklyViews,
+    getMonthlyViews
 };

@@ -34,7 +34,27 @@ const updateToolView = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
         data: result
     });
 }));
+const getWeeklyViews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield tool_service_1.default.getWeeklyViews();
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Weekly views fetched successfully",
+        data: result
+    });
+}));
+const getMonthlyViews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield tool_service_1.default.getMonthlyViews();
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Monthly views fetched successfully",
+        data: result
+    });
+}));
 exports.default = {
     getTools,
-    updateToolView
+    updateToolView,
+    getWeeklyViews,
+    getMonthlyViews
 };
