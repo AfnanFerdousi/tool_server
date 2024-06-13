@@ -22,7 +22,8 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const app = (0, express_1.default)();
 const corsOptions = {
     origin: [
-        'http://localhost:3000',
+        'http://localhost:5173',
+        'https://tool-client-zeta.vercel.app',
         '*'
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
