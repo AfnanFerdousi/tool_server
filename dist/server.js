@@ -47,3 +47,4 @@ function bootstrap() {
     });
 }
 bootstrap();
+exports.default = server;

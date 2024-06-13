@@ -9,12 +9,12 @@ process.on("uncaughtException", error => {
     process.exit(1);
 });
 
-let server: Server;
+let server: Server | undefined;
 
 async function bootstrap() {
   try {
-      console.log(config.database_url, config, config.port)
-    await mongoose.connect(config.database_url as string);
+        console.log(config.database_url, config, config.port)
+        await mongoose.connect(config.database_url as string);
         console.log(`🛢   Database has been connected successfully`);
 
         server = app.listen(config.port, () => {
@@ -37,3 +37,5 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+export default server;
